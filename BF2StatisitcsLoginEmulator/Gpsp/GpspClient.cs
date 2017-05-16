@@ -78,15 +78,21 @@ namespace BF2sLoginEmu
                 // TODO: process the 'getprofile' (returned at this point) data
                 string message = Stream.Read();
                 string[] recv = message.Split('\\');
-
-                switch (recv[1])
+                try
                 {
-                    case "nicks":
-                        SendGPSP(recv);
-                        break;
-                    case "check":
-                        SendCheck(recv);
-                        break;
+                    switch (recv[1])
+                    {
+                        case "nicks":
+                            SendGPSP(recv);
+                            break;
+                        case "check":
+                            SendCheck(recv);
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
                 }
             }
         }

@@ -305,35 +305,42 @@ namespace BF2sLoginEmu
                 string message = Stream.Read();
                 string[] recv = message.Split('\\');
 
-                switch (recv[1])
+                try
                 {
-                    case "newuser":
-                        HandleNewUser(recv);
-                        Step++;
-                        break;
-                    case "login":
-                        ProccessLogin(recv);
-                        Step++;
-                        break;
-                    case "getprofile":
-                        if (Step < 2)
-                        {
-                            SendProfile(false);
+                    switch (recv[1])
+                    {
+                        case "newuser":
+                            HandleNewUser(recv);
                             Step++;
-                        }
-                        else
-                            SendProfile(true);
-                        break;
-                    case "updatepro":
-                        UpdateUser(recv);
-                        break;
-                    case "logout":
-                        LogOut();
-                        break;
-                    default:
-                        Server.Log("Unkown Message Passed: {0}", message);
-                        break;
+                            break;
+                        case "login":
+                            ProccessLogin(recv);
+                            Step++;
+                            break;
+                        case "getprofile":
+                            if (Step < 2)
+                            {
+                                SendProfile(false);
+                                Step++;
+                            }
+                            else
+                                SendProfile(true);
+                            break;
+                        case "updatepro":
+                            UpdateUser(recv);
+                            break;
+                        case "logout":
+                            LogOut();
+                            break;
+                        default:
+                            Server.Log("Unkown Message Passed: {0}", message);
+                            break;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }                
             } 
         }
 
